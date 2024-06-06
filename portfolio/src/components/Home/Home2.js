@@ -1,6 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import Tilt from "react-parallax-tilt";
+import homeLogo from "../../Assets/home-main.svg";
+import Particle from "../Particle";
+import myImg from "../../Assets/avatar.svg";
 import {
   AiFillGithub,
   AiOutlineTwitter,

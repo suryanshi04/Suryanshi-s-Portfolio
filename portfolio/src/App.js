@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
+import Preloader from "../src/components/Pre";
+import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
+import Footer from "./components/Footer";
 import {
   BrowserRouter as Router,
   Route,
