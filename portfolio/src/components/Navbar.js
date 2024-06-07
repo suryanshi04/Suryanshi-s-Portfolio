@@ -43,7 +43,7 @@ export default function Navbar(){
               </Link>
               <Link to={'/'} className="small mr-3">
                 <span className="icon-envelope mr-2"></span>
-                <span className="d-none d-lg-inline-block">shopbuddy@gmail.com</span>
+                <span className="d-none d-lg-inline-block">nexus@gmail.com</span>
               </Link>
             </div>
 
@@ -82,16 +82,16 @@ export default function Navbar(){
       <div className="sticky-nav js-sticky-header">
         <div className="container position-relative">
           <div className="site-navigation text-center">
-            <Link to={'/'} className="logo menu-absolute m-0">Shop Budyy!<span className="text-primary">.</span></Link>
+            <Link to={'/'} className="logo menu-absolute m-0">Research Nexus!<span className="text-primary">.</span></Link>
 
           <ul className="js-clone-nav d-none d-lg-inline-block site-menu">
             <li className={checkActive('/')}><Link to="/">Home</Link></li>
-            <li className={checkActive('/Professors')}><Link to="/Professors">Clothes</Link></li>
+            <li className={checkActive('/Professors')}><Link to="/Professors">Professors</Link></li>
 
-            <li className={checkActive('/Forum')}><Link to="/Forum">Skincare</Link></li>
-            <li className={checkActive('/Application')}><Link to="/Application">Make Up</Link></li>
-            <li className={checkActive('/News')}><Link to="/News">Men's</Link></li>
-            <li className={checkActive('/Contact')}><Link to="/Contact">Appliances and Electronics</Link></li>
+            <li className={checkActive('/Forum')}><Link to="/Forum">Students Self Recommendations</Link></li>
+            <li className={checkActive('/Application')}><Link to="/Application">Programs of Interest</Link></li>
+            <li className={checkActive('/News')}><Link to="/News">News</Link></li>
+            <li className={checkActive('/Contact')}><Link to="/Contact">Contact</Link></li>
         </ul>
 
 
