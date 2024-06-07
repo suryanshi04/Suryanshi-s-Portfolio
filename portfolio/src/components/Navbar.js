@@ -1,122 +1,126 @@
-import React, { useState } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import logo from "../Assets/logo.png";
-import Button from "react-bootstrap/Button";
+import * as React from "react";
 import { Link } from "react-router-dom";
-import { CgGitFork } from "react-icons/cg";
-import { ImBlog } from "react-icons/im";
-import {
-  AiFillStar,
-  AiOutlineHome,
-  AiOutlineFundProjectionScreen,
-  AiOutlineUser,
-} from "react-icons/ai";
+import { LabLinkContext } from "../LabLinkProvider";
+import { useState } from 'react';
+import "../styles/navbar.css";
+import { useLocation } from 'react-router-dom';
+import Chatbot from './Chatbot.js'
+export default function Navbar(){
 
-import { CgFileDocument } from "react-icons/cg";
+  const { isLoggedIn, setIsLoggedIn } = React.useContext(LabLinkContext);
+  const { netID, setNetID } = React.useContext(LabLinkContext)
+  const [showMenu, setShowMenu] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+  const handleLogout = () => {
+    sessionStorage.removeItem('userToken');
+    setIsLoggedIn(false);
+    sessionStorage.removeItem('userID');
+    setNetID('');
+  };
+  const location = useLocation();
 
-function NavBar() {
-  const [expand, updateExpanded] = useState(false);
-  const [navColour, updateNavbar] = useState(false);
+    const checkActive = (path) => location.pathname === path ? 'active' : '';
 
-  function scrollHandler() {
-    if (window.scrollY >= 20) {
-      updateNavbar(true);
-    } else {
-      updateNavbar(false);
-    }
-  }
+  return(
+    <nav className="site-nav mb-5">
+      <div className="pb-2 top-bar mb-3">
+        <div className="container">
+          <div className="row align-items-center">
 
-  window.addEventListener("scroll", scrollHandler);
+            <div className="col-6 col-lg-9">
+              <Link to={'/Contact'} className="small mr-3">
+                <span className="icon-question-circle-o mr-2"></span>
+                <span className="d-none d-lg-inline-block">Contact us</span>
+              </Link>
+              <Link to={'/'} className="small mr-3">
+                <span className="icon-phone mr-2"></span>
+                <span className="d-none d-lg-inline-block">+91 9305792979</span>
+              </Link>
+              <Link to={'/'} className="small mr-3">
+                <span className="icon-envelope mr-2"></span>
+                <span className="d-none d-lg-inline-block">shopbuddy@gmail.com</span>
+              </Link>
+            </div>
 
-  return (
-    <Navbar
-      expanded={expand}
-      fixed="top"
-      expand="md"
-      className={navColour ? "sticky" : "navbar"}
-    >
-      <Container>
-        <Navbar.Brand href="/" className="d-flex">
-          <img src={logo} className="img-fluid logo" alt="brand" />
-        </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="responsive-navbar-nav"
-          onClick={() => {
-            updateExpanded(expand ? false : "expanded");
-          }}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </Navbar.Toggle>
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto" defaultActiveKey="#home">
-            <Nav.Item>
-              <Nav.Link as={Link} to="/" onClick={() => updateExpanded(false)}>
-                <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
-              </Nav.Link>
-            </Nav.Item>
 
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/about"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
-              </Nav.Link>
-            </Nav.Item>
+            {isLoggedIn ?
+              <div className="col-6 col-lg-3 text-right user-menu">
+                <button className="user-button">
+                   { netID } <span className="icon-person"></span>
+                </button>
+                <div className="user-options">
+                  <Link to={'/profile'} className="small">
+                    <span className="icon-person menu-person"></span>
+                    <span className="profile-text">Profile</span>
+                  </Link>
+                  <Link to={'/'} onClick={handleLogout} className="small">
+                    <span className="icon-lock"></span>
+                    <span className="log-out-text">Log Out</span>
+                  </Link>
+                </div>
+              </div>
+              :
+              <div className="col-6 col-lg-3 text-right">
+                <Link to={'/login'} className="small mr-3">
+                  <span className="icon-lock"> </span>
+                   Log In
+                </Link>
+                <Link to={'/register'} className="small">
+                  <span className="icon-person"> </span>
+                  Register
+                </Link>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div className="sticky-nav js-sticky-header">
+        <div className="container position-relative">
+          <div className="site-navigation text-center">
+            <Link to={'/'} className="logo menu-absolute m-0">Shop Budyy!<span className="text-primary">.</span></Link>
 
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/project"
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineFundProjectionScreen
-                  style={{ marginBottom: "2px" }}
-                />{" "}
-                Projects
-              </Nav.Link>
-            </Nav.Item>
+          <ul className="js-clone-nav d-none d-lg-inline-block site-menu">
+            <li className={checkActive('/')}><Link to="/">Home</Link></li>
+            <li className={checkActive('/Professors')}><Link to="/Professors">Clothes</Link></li>
 
-            <Nav.Item>
-              <Nav.Link
-                as={Link}
-                to="/resume"
-                onClick={() => updateExpanded(false)}
-              >
-                <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
-              </Nav.Link>
-            </Nav.Item>
+            <li className={checkActive('/Forum')}><Link to="/Forum">Skincare</Link></li>
+            <li className={checkActive('/Application')}><Link to="/Application">Make Up</Link></li>
+            <li className={checkActive('/News')}><Link to="/News">Men's</Link></li>
+            <li className={checkActive('/Contact')}><Link to="/Contact">Appliances and Electronics</Link></li>
+        </ul>
 
-            <Nav.Item>
-              <Nav.Link
-                href="https://soumyajitblogs.vercel.app/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <ImBlog style={{ marginBottom: "2px" }} /> Blogs
-              </Nav.Link>
-            </Nav.Item>
 
-            <Nav.Item className="fork-btn">
-              <Button
-                href="https://github.com/soumyajit4419/Portfolio"
-                target="_blank"
-                className="fork-btn-inner"
-              >
-                <CgGitFork style={{ fontSize: "1.2em" }} />{" "}
-                <AiFillStar style={{ fontSize: "1.1em" }} />
-              </Button>
-            </Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
+        <div className="burger ml-auto float-right site-menu-toggle d-inline-block d-lg-none light" onClick={toggleMenu}>
+          <span className="burger-lines"></span>
+        </div>
+
+        <div className={`offcanvas-menu ${showMenu ? 'active' : ''}`}>
+            <button className="close-menu" onClick={toggleMenu}>&times;</button>
+            <Link to={'/'} onClick={toggleMenu}><h2>Home</h2></Link>
+            <Link to={'/Projects'} onClick={toggleMenu}><h2>Projects</h2></Link>
+            <Link to={'/Professors'} onClick={toggleMenu}><h2>Professors</h2></Link>
+
+            <Link to={'/Forum'} onClick={toggleMenu}><h2>Students Self Recommendations</h2></Link>
+            <Link to={'/Application'} onClick={toggleMenu}><h2>Programs of Interest</h2></Link>
+            <Link to={'/News'} onClick={toggleMenu }><h2>News</h2></Link>
+
+          </div>
+
+
+      </div>
+
+
+        </div>
+
+      </div>
+      <div style={{ zIndex: 9999 }}>
+                          <Chatbot />
+                        </div>
+    </nav>
+  )
 }
-
-export default NavBar;
